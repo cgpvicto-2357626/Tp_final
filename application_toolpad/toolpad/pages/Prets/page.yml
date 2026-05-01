@@ -1,0 +1,202 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/toolpad/v0.11.0/docs/schemas/v1/definitions.json#properties/Page
+
+apiVersion: v1
+kind: page
+spec:
+  title: page
+  display: shell
+  authorization:
+    allowAll: true
+  content:
+    - component: Text
+      name: text1
+      props:
+        variant: h2
+        value: Ajouter un prêt
+      layout:
+        horizontalAlign: center
+    - component: PageRow
+      name: pageRow1
+      props:
+        justifyContent: start
+      children:
+        - component: TextField
+          name: liverId
+          props:
+            fullWidth: true
+        - component: TextField
+          name: emprunteur
+          props:
+            fullWidth: true
+        - component: TextField
+          name: dateRetour
+          props:
+            fullWidth: true
+    - component: Button
+      name: ajout
+      props:
+        content: Ajouter
+        onClick:
+          $$jsExpressionAction: ajoutpret.call()
+    - component: Text
+      name: text2
+      props:
+        variant: h2
+        value: Modifier un prêt
+      layout:
+        horizontalAlign: center
+    - component: PageRow
+      name: pageRow2
+      props:
+        justifyContent: start
+      children:
+        - component: TextField
+          name: pretIdModif
+          props:
+            fullWidth: true
+        - component: TextField
+          name: emprunteurModif
+          props:
+            fullWidth: true
+        - component: TextField
+          name: dateRetourModif
+          props:
+            fullWidth: true
+    - component: Button
+      name: modif
+      props:
+        content: Modifer
+        onClick:
+          $$jsExpressionAction: modifpret.call()
+    - component: Text
+      name: text3
+      props:
+        variant: h2
+        value: Supprimer un prêt
+      layout:
+        verticalAlign: center
+        horizontalAlign: center
+    - component: PageRow
+      name: pageRow
+      props:
+        justifyContent: start
+      children:
+        - component: Text
+          name: text
+          layout:
+            columnSize: 0.3234981616239704
+            horizontalAlign: start
+            verticalAlign: center
+          props:
+            variant: h4
+            value: "Id de prêt:"
+        - component: TextField
+          name: pretId
+          layout:
+            columnSize: 0.4063695593382195
+        - component: Button
+          name: suppr
+          layout:
+            columnSize: 2.27013227903781
+            horizontalAlign: start
+            verticalAlign: center
+          props:
+            content: supprimer
+            onClick:
+              $$jsExpressionAction: supprpret.call()
+  queries:
+    - name: ajoutpret
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://tp-final-sw.onrender.com/api/livres/${parameters.livr\
+            eId}/prets`"
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: "`Bearer ${parameters.apiKey}`"
+        body:
+          kind: raw
+          content:
+            $$jsExpression: "JSON.stringify({\r
+
+              \    emprunteur: parameters.emprunteur,\r
+
+              \    date_retour: parameters.dateRetour\r
+
+              })"
+          contentType: application/json
+        method: POST
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: emprunteur
+          value:
+            $$jsExpression: emprunteur.value
+        - name: dateRetour
+          value:
+            $$jsExpression: dateRetour.value
+        - name: livreId
+          value:
+            $$jsExpression: liverId.value
+    - name: modifpret
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/prets/${parameters.pretId}`"
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: "`Bearer ${parameters.apiKey}`"
+        body:
+          kind: raw
+          content:
+            $$jsExpression: "JSON.stringify({\r
+
+              \    emprunteur: parameters.emprunteur,\r
+
+              \    date_retour: parameters.dateRetour\r
+
+              })"
+          contentType: application/json
+        method: PUT
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: emprunteur
+          value:
+            $$jsExpression: emprunteurModif.value
+        - name: dateRetour
+          value:
+            $$jsExpression: dateRetourModif.value
+        - name: pretId
+          value:
+            $$jsExpression: pretIdModif.value
+    - name: supprpret
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/prets/${parameters.pretId}`"
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: "`Bearer ${parameters.apiKey}`"
+        body:
+          kind: raw
+          content: ""
+          contentType: application/json
+        method: DELETE
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: pretId
+          value:
+            $$jsExpression: pretId.value
+  maxWidth: xl
