@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Épreuve finale - Services Web H26</title>
+    <script defer src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Épreuve finale - Services Web H26</h1>
+        <p>Ismail Hentati</p>
+    </header>
+    <main>
+        <section id="section-inscription">
+            <h2>Création d'une bibliothèque</h2>
+            <label for="inscription-nom">Nom de la bibliothèque</label>
+            <input type="text" id="inscription-nom" placeholder="Votre bibliothèque">
+            <label for="inscription-courriel">Courriel</label>
+            <input type="email" id="inscription-courriel" placeholder="Votre courriel">
+            <label for="inscription-password">Mot de passe</label>
+            <input type="password" id="inscription-password" placeholder="********">
+            <button id="btn-inscription">Créer</button>
+            <div class="resultat" id="resultat-inscription"></div>
+        </section>
+
+        <section id="section-cle-api">
+            <h2>Récupération d'une clé api</h2>
+            <label for="cle-courriel">Courriel</label>
+            <input type="email" id="cle-courriel" placeholder="Votre courriel">
+            <label for="cle-password">Mot de passe</label>
+            <input type="password" id="cle-password" placeholder="********">
+            <label>
+                <input type="checkbox" id="nouvelle-cle"> Générer une nouvelle clé
+            </label>
+            <button id="btn-recuperer">Récupérer</button>
+            <div class="resultat" id="resultat-cle-api"></div>
+        </section>
+    </main>
+</body>
+</html>

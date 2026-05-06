@@ -1,0 +1,394 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/toolpad/v0.11.0/docs/schemas/v1/definitions.json#properties/Page
+
+apiVersion: v1
+kind: page
+spec:
+  alias:
+    - nwSRmZ8
+  title: Default page
+  queries:
+    - name: getLivres
+      mode: query
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/livres?tous=true`"
+        headers:
+          [
+            {
+              name: Authorization,
+              value: { $$jsExpression: "`Bearer ${parameters.apiKey}`" },
+            },
+          ]
+        method: GET
+        searchParams: []
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+      refetchInterval: 1000
+    - name: ajoutLivres
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/livres`"
+        searchParams: []
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: "`Bearer ${parameters.apiKey}`"
+        method: POST
+        body:
+          kind: raw
+          content:
+            $$jsExpression: "JSON.stringify({\r
+
+              \    titre: parameters.titre,\r
+
+              \    auteur: parameters.auteur,\r
+
+              \    isbn: parameters.isbn\r
+
+              })"
+          contentType: application/json
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: titre
+          value:
+            $$jsExpression: titre.value
+        - name: auteur
+          value:
+            $$jsExpression: auteur.value
+        - name: isbn
+          value:
+            $$jsExpression: isbn.value
+    - name: modifLivres
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/livres/${parameters.id}`"
+        headers:
+          [
+            {
+              name: Authorization,
+              value: { $$jsExpression: "`Bearer ${parameters.apiKey}`" },
+            },
+          ]
+        body:
+          kind: raw
+          content:
+            $$jsExpression: "JSON.stringify({\r
+
+              \    titre: parameters.titre,\r
+
+              \    auteur: parameters.auteur,\r
+
+              \    isbn: parameters.isbn\r
+
+              })"
+          contentType: application/json
+        method: PUT
+        searchParams: []
+      parameters:
+        - name: id
+          value:
+            $$jsExpression: dataGrid.selection.id
+        - name: titre
+          value:
+            $$jsExpression: titremodif.value
+        - name: auteur
+          value:
+            $$jsExpression: auteurmodif.value
+        - name: isbn
+          value:
+            $$jsExpression: isbnmodif.value
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+    - name: modifStatus
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://tp-final-sw.onrender.com/api/livres/${parameters.id}/\
+            statut`"
+        headers:
+          [
+            {
+              name: Authorization,
+              value: { $$jsExpression: "`Bearer ${parameters.apiKey}`" },
+            },
+          ]
+        method: PATCH
+        body:
+          kind: raw
+          content:
+            $$jsExpression: "JSON.stringify({\r
+
+              \    disponible: parameters.disponible === 'true'\r
+
+              })"
+          contentType: application/json
+        searchParams: []
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: id
+          value:
+            $$jsExpression: dataGrid.selection?.id
+        - name: disponible
+          value:
+            $$jsExpression: select.value
+    - name: supprLivres
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/livres/${parameters.id}`"
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: "`Bearer ${parameters.apiKey}`"
+        method: DELETE
+        searchParams: []
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: id
+          value:
+            $$jsExpression: dataGrid.selection?.id
+    - name: getLivresdetails
+      mode: query
+      query:
+        kind: rest
+        url:
+          $$jsExpression: "`https://tp-final-sw.onrender.com/api/livres/${parameters.id}`"
+        searchParams: []
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: "`Bearer ${parameters.apiKey}`"
+        method: GET
+      parameters:
+        - name: apiKey
+          value:
+            $$env: TOOLPAD_API_CLE
+        - name: id
+          value:
+            $$jsExpression: dataGrid.selection?.id
+      refetchInterval: 1000000
+  content:
+    - component: Button
+      name: button1
+      props:
+        content: supprimer
+        onClick:
+          $$jsExpressionAction: "supprLivres.call().then(() => {\r
+
+            \  getLivres.call();\r
+
+            });"
+      layout:
+        horizontalAlign: end
+    - component: DataGrid
+      name: dataGrid
+      props:
+        rows:
+          $$jsExpression: getLivres.data?.livres ?? []
+        columns:
+          - field: id
+            type: number
+          - field: bibliotheque_id
+            type: number
+          - field: titre
+            type: string
+          - field: auteur
+            type: string
+          - field: isbn
+            type: number
+          - field: date_ajout
+            type: dateTime
+          - field: disponible
+            type: boolean
+        rowsSource: prop
+      layout:
+        columnSize: 1.6765252892108669
+    - component: Text
+      name: textAjout
+      props:
+        value: Ajouter un livre
+        variant: h2
+      layout:
+        horizontalAlign: center
+        verticalAlign: center
+    - component: PageRow
+      name: pageRow
+      props:
+        justifyContent: start
+      children:
+        - component: TextField
+          name: titre
+          layout:
+            columnSize: 1.0008303303914468
+          props:
+            fullWidth: true
+        - component: TextField
+          name: auteur
+          layout:
+            columnSize: 0.9982730152852742
+          props:
+            fullWidth: true
+        - component: TextField
+          name: isbn
+          layout:
+            columnSize: 1.0008966543232791
+          props:
+            fullWidth: true
+    - component: Button
+      name: btnAjout
+      props:
+        content: Ajouter
+        onClick:
+          $$jsExpressionAction: "ajoutLivres.call().then(() => {\r
+
+            \  getLivres.call();\r
+
+            });\r\n"
+      layout:
+        horizontalAlign: end
+    - component: Text
+      name: textmodif
+      props:
+        value: Modifier un livre
+        variant: h2
+      layout:
+        horizontalAlign: center
+        verticalAlign: center
+    - component: PageRow
+      name: pageRow1
+      props:
+        justifyContent: start
+      children:
+        - component: TextField
+          name: titremodif
+          props:
+            fullWidth: true
+            defaultValue:
+              $$jsExpression: dataGrid.selection.titre
+        - component: TextField
+          name: auteurmodif
+          props:
+            fullWidth: true
+            defaultValue:
+              $$jsExpression: dataGrid.selection.auteur
+        - component: TextField
+          name: isbnmodif
+          props:
+            fullWidth: true
+            defaultValue:
+              $$jsExpression: dataGrid.selection.isbn
+    - component: PageRow
+      name: pageRow4
+      props:
+        justifyContent: start
+      children:
+        - component: Select
+          name: select
+          layout:
+            columnSize: 0.4886307616449741
+          props:
+            options:
+              - value: "true"
+                label: disponible
+              - value: "false"
+                label: emprunté
+        - component: Button
+          name: modifstatus
+          layout:
+            horizontalAlign: start
+            columnSize: 1.6953997119856765
+            verticalAlign: center
+          props:
+            content: Modifier status
+            onClick:
+              $$jsExpressionAction: "modifStatus.call().then(() => {\r
+
+                \    getLivres.refetch();\r
+
+                });"
+        - component: Button
+          name: button
+          layout:
+            columnSize: 0.8159695263693495
+            horizontalAlign: end
+          props:
+            content: Modifier
+            onClick:
+              $$jsExpressionAction: "modifLivres.call().then(() => {\r
+
+                \    getLivres.refetch();\r
+
+                });"
+    - component: Text
+      name: text
+      props:
+        value: Les détails de livre
+        variant: h2
+      layout:
+        horizontalAlign: center
+    - component: PageRow
+      name: pageRow2
+      props:
+        justifyContent: start
+      children:
+        - component: DataGrid
+          name: dataGrid1
+          layout:
+            columnSize: 1.0000955952055253
+            height: 168.00001525878906
+          props:
+            rows:
+              $$jsExpression: "getLivresdetails.data ? [getLivresdetails.data] : []"
+            columns:
+              - field: id
+                type: number
+              - field: bibliotheque_id
+                type: number
+              - field: titre
+                type: string
+              - field: auteur
+                type: number
+              - field: isbn
+                type: number
+              - field: date_ajout
+                type: dateTime
+              - field: disponible
+                type: boolean
+            rowsSource: prop
+        - component: DataGrid
+          name: dataGrid2
+          layout:
+            columnSize: 0.9999044047944748
+            height: 248.00003051757812
+          props:
+            rows:
+              $$jsExpression: getLivresdetails.data?.prets ?? []
+            columns:
+              - field: id
+                type: number
+              - field: livre_id
+                type: number
+              - field: emprunteur
+                type: string
+              - field: date_retour
+                type: dateTime
+              - field: statut
+                type: string
+  maxWidth: xl
