@@ -40,15 +40,7 @@
       "name": "Livres",
       "item": [
         {
-          "name": "liste livres",
-          "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "lister tous les livres",
+          "name": "lister livres",
           "request": {
             "auth": {
               "type": "bearer",
@@ -97,14 +89,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/api/livres/7",
+              "raw": "{{base_url}}/api/livres/12",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "api",
                 "livres",
-                "7"
+                "12"
               ]
             }
           },
