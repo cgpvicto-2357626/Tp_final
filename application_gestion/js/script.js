@@ -44,9 +44,7 @@ async function inscrire() {
     try {
         const reponse = await fetch(urlPost, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ nom, courriel, password })
         });
         if (!reponse.ok) {
@@ -73,7 +71,7 @@ async function recupererCleApi() {
     try {
         const reponse = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ courriel, password })
         });
         if (!reponse.ok) {
