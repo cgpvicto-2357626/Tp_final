@@ -24,14 +24,17 @@ spec:
           name: liverId
           props:
             fullWidth: true
+            placeholder: id du livre
         - component: TextField
           name: emprunteur
           props:
             fullWidth: true
+            placeholder: emprunteur
         - component: TextField
           name: dateRetour
           props:
             fullWidth: true
+            placeholder: date de retour
     - component: Button
       name: ajout
       props:
@@ -54,14 +57,17 @@ spec:
           name: pretIdModif
           props:
             fullWidth: true
+            placeholder: id de pret
         - component: TextField
           name: emprunteurModif
           props:
             fullWidth: true
+            placeholder: emprunteur
         - component: TextField
           name: dateRetourModif
           props:
             fullWidth: true
+            placeholder: date de retour
     - component: Button
       name: modif
       props:
@@ -84,6 +90,7 @@ spec:
           name: pretIdModifStatut
           props:
             fullWidth: true
+            placeholder: id de pret
         - component: TextField
           name: statutPret
           props:
@@ -121,6 +128,8 @@ spec:
           name: pretId
           layout:
             columnSize: 0.4063695593382195
+          props:
+            placeholder: id de pret
         - component: Button
           name: suppr
           layout:

@@ -239,18 +239,21 @@ spec:
             columnSize: 1.0008303303914468
           props:
             fullWidth: true
+            placeholder: titre
         - component: TextField
           name: auteur
           layout:
             columnSize: 0.9982730152852742
           props:
             fullWidth: true
+            placeholder: auteur
         - component: TextField
           name: isbn
           layout:
             columnSize: 1.0008966543232791
           props:
             fullWidth: true
+            placeholder: isbn
     - component: Button
       name: btnAjout
       props:
@@ -282,18 +285,21 @@ spec:
             fullWidth: true
             defaultValue:
               $$jsExpression: dataGrid.selection.titre
+            placeholder: "titre "
         - component: TextField
           name: auteurmodif
           props:
             fullWidth: true
             defaultValue:
               $$jsExpression: dataGrid.selection.auteur
+            placeholder: auteur
         - component: TextField
           name: isbnmodif
           props:
             fullWidth: true
             defaultValue:
               $$jsExpression: dataGrid.selection.isbn
+            placeholder: isbn
     - component: PageRow
       name: pageRow4
       props:
