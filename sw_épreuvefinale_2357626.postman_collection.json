@@ -21,8 +21,28 @@
         {
           "name": "recup cle",
           "request": {
-            "method": "GET",
-            "header": []
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"courriel\": \"2357626@carrefour.cegepvicto.caaa\",\r\n    \"password\": \"allo\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/bibliotheque/cle-api",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "bibliotheque",
+                "cle-api"
+              ]
+            }
           },
           "response": []
         },
